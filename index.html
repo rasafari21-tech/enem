@@ -1,8 +1,25 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Plano ENEM 2027</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Plano de Estudos ENEM 2027 - Cronograma interativo, rotinas e simulados">
+<meta name="theme-color" content="#3B4BC8">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ENEM 2027">
+<meta name="claude:viewport-fit-sides" content="cover">
+
+<!-- App Icons & Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap">
 <style>
@@ -47,6 +64,7 @@ a { color: var(--accent); }
 button { font: inherit; color: inherit; }
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding: .7rem 0 .6rem; border-bottom: 1px solid var(--line); }
 .top .row { display: flex; align-items: center; gap: .5rem; }
+.hdr-icon { width: 16px; height: 16px; border-radius: 50%; vertical-align: -2px; margin-right: 6px; display: inline-block; object-fit: cover; box-shadow: 0 0 4px rgba(0,0,0,0.3); }
 .eyebrow { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 .navbtn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; min-width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; font-size: 1.1rem; }
 .navbtn.wide { padding: 0 .9rem; font-size: .9rem; font-weight: 700; }
@@ -126,7 +144,8 @@ textarea.f { min-height: 4.5rem; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
-
+</head>
+<body>
 <main id="app" aria-live="polite"></main>
 <nav class="tabs" aria-label="Seções">
   <a href="#hoje" data-tab="hoje"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Hoje</a>
@@ -264,7 +283,7 @@ textarea.f { min-height: 4.5rem; }
     const w = PLAN.weeks[wi];
     const [ok, tot] = weekProgress(w);
     const isToday = cur === iso(new Date());
-    let h = '<header class="top"><div class="row"><button class="navbtn" data-go="-1" aria-label="Dia anterior">‹</button><div class="grow"><div class="eyebrow">Semana ' + w.n + " · " + esc(w.kind) + "</div><h1>" + (isToday ? "Hoje" : DIAS[(parse(cur).getDay() + 6) % 7]) + "</h1></div>" +
+    let h = '<header class="top"><div class="row"><button class="navbtn" data-go="-1" aria-label="Dia anterior">‹</button><div class="grow"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">Semana ' + w.n + " · " + esc(w.kind) + "</div><h1>" + (isToday ? "Hoje" : DIAS[(parse(cur).getDay() + 6) % 7]) + "</h1></div>" +
       (isToday ? "" : '<button class="navbtn wide" data-today>Hoje</button>') + '<button class="navbtn" data-go="1" aria-label="Próximo dia">›</button></div>' +
       '<div class="chips"><span class="chip">' + br(cur) + '</span><span class="chip">' + esc(w.phase) + '</span><span class="chip">' + ok + "/" + tot + ' blocos na semana</span></div><div class="progressbar"><i style="width:' + (tot ? Math.round((100 * ok) / tot) : 0) + '%"></i></div></header>';
     h += nowBanner(d);
@@ -278,7 +297,7 @@ textarea.f { min-height: 4.5rem; }
   function viewSemana() {
     const w = PLAN.weeks[weekSel];
     const [ok, tot] = weekProgress(w);
-    let h = '<header class="top"><div class="row"><button class="navbtn" data-week="-1" aria-label="Semana anterior">‹</button><div class="grow"><div class="eyebrow">' + esc(w.range) + " · " + esc(w.kind) + "</div><h1>Semana " + w.n + '</h1></div><button class="navbtn" data-week="1" aria-label="Próxima semana">›</button></div><div class="chips"><span class="chip">' + esc(w.phase) + '</span><span class="chip">' + ok + "/" + tot + " blocos</span></div></header>";
+    let h = '<header class="top"><div class="row"><button class="navbtn" data-week="-1" aria-label="Semana anterior">‹</button><div class="grow"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">' + esc(w.range) + " · " + esc(w.kind) + "</div><h1>Semana " + w.n + '</h1></div><button class="navbtn" data-week="1" aria-label="Próxima semana">›</button></div><div class="chips"><span class="chip">' + esc(w.phase) + '</span><span class="chip">' + ok + "/" + tot + " blocos</span></div></header>";
     if (w.decision) h += w.decision;
     if (w.milestone) h += '<div class="hito"><b>Marco:</b> ' + esc(w.milestone) + "</div>";
     if (w.spiral) h += '<div class="spiral"><b>Espiral da semana:</b> ' + esc(w.spiral) + "</div>";
@@ -290,7 +309,7 @@ textarea.f { min-height: 4.5rem; }
     return h;
   }
   function viewRotinas() {
-    let h = '<header class="top"><div class="eyebrow">12:00–13:30 e 17:30–19:00</div><h1>Rotinas dos blocos</h1></header>' +
+    let h = '<header class="top"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">12:00–13:30 e 17:30–19:00</div><h1>Rotinas dos blocos</h1></header>' +
       '<p class="small" style="margin-top:.7rem">Cada bloco do cronograma tem um código (P1, P2…). Aqui está o que fazer em cada trecho, com material, wifi, resultado e como conferir.</p>' + PLAN.semanaTipo;
     PLAN.templateOrder.forEach((k) => {
       const T = PLAN.templates[k];
@@ -300,7 +319,7 @@ textarea.f { min-height: 4.5rem; }
     return h;
   }
   function viewPrompts() {
-    let h = '<header class="top"><div class="eyebrow">Use sempre num trecho COM WIFI</div><h1>Prompts</h1></header><p class="small" style="margin-top:.7rem">Troque só o que está [ENTRE COLCHETES]. O botão copia o texto inteiro.</p>';
+    let h = '<header class="top"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">Use sempre num trecho COM WIFI</div><h1>Prompts</h1></header><p class="small" style="margin-top:.7rem">Troque só o que está [ENTRE COLCHETES]. O botão copia o texto inteiro.</p>';
     PLAN.prompts.forEach((p) => {
       h += '<section class="box"><h3>Prompt ' + p[0] + " · " + esc(p[1]) + '</h3><button class="copy" data-copy="' + esc(p[2]) + '">Copiar prompt</button><pre class="code">' + esc(p[2]) + "</pre></section>";
     });
@@ -308,7 +327,7 @@ textarea.f { min-height: 4.5rem; }
     return h;
   }
   function viewGuia() {
-    let h = '<header class="top"><div class="eyebrow">Estratégia, técnicas e plano B</div><h1>Guia</h1></header><div class="list" style="margin-top:.8rem">' +
+    let h = '<header class="top"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">Estratégia, técnicas e plano B</div><h1>Guia</h1></header><div class="list" style="margin-top:.8rem">' +
       PLAN.sections.map((s) => '<a class="item" href="#guia-' + s[0] + '"><span>' + esc(s[1]) + "</span><span>›</span></a>").join("") +
       '<a class="item" href="#guia-cobertura"><span>Mapa de cobertura do conteúdo</span><span>›</span></a>' +
       '<a class="item" href="#guia-padroes"><span>Padrões: os tipos de questão que o ENEM repete</span><span>›</span></a>' +
@@ -334,7 +353,7 @@ textarea.f { min-height: 4.5rem; }
     const w = PLAN.weeks[DAYS[DAYIDX[todayIso()]].wi];
     const reg = state.registro["C" + w.n] || {};
     const fields = [["blocos", "Blocos feitos (de 12)"], ["sono", "Sono médio (h)"], ["mat", "Acerto Mat (%)"], ["nat", "Acerto Nat (%)"], ["hum", "Acerto Hum (%)"], ["ling", "Acerto Ling (%)"], ["seguro", "«Seguro mas errei» na semana"], ["redacao", "Redação: nota estimada"]];
-    let h = '<header class="top"><div class="eyebrow">Registro e controles</div><h1>Progresso</h1></header>' +
+    let h = '<header class="top"><div class="eyebrow"><img src="favicon-32x32.png" alt="Icon" class="hdr-icon">Registro e controles</div><h1>Progresso</h1></header>' +
       '<div class="kpis"><div class="kpi"><span>' + pok + "/" + ptot + '</span>blocos até hoje</div><div class="kpi hi"><span>' + (ptot ? Math.round((100 * pok) / ptot) : 0) + '%</span>constância</div><div class="kpi"><span>' + ok + '</span>de ' + tot + " no plano</div></div>" +
       '<h2>Registro semanal · Semana ' + w.n + '</h2><p class="small">Preencha no sábado às 18:45 (2 minutos). Fica salvo no celular e na sua conta.</p><form id="reg"><div class="grid2">' +
       fields.map((f) => '<div><label class="f" for="r-' + f[0] + '">' + f[1] + '</label><input class="f" inputmode="decimal" id="r-' + f[0] + '" name="' + f[0] + '" value="' + esc(reg[f[0]] || "") + '"></div>').join("") +

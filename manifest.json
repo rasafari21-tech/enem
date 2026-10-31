@@ -1,6 +1,6 @@
-﻿{
-  "name": "Plano ENEM 2027",
-  "short_name": "ENEM 2027",
+{
+  "name": "enem",
+  "short_name": "enem",
   "description": "Plano de Estudos ENEM 2027 - Cronograma interativo, rotinas e simulados",
   "start_url": "./",
   "display": "standalone",

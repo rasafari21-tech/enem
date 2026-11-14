@@ -1,7 +1,7 @@
 // Service worker: guarda o app no iPhone para abrir SEM INTERNET (no ônibus).
 // Página: tenta a rede primeiro (para pegar versões novas) e, sem internet, usa a cópia salva.
-const CACHE = "enem-v8";
-const CORE = ["./", "./index.html", "./manifest.json", "./apple-touch-icon.png", "./icon-192.png", "./icon-512.png", "./favicon-32x32.png"];
+const CACHE = "enem-v9";
+const CORE = ["./", "./index.html", "./manifest.json", "./apple-touch-icon.png", "./icon-192.png", "./icon-512.png", "./favicon-32x32.png", "./vendor/pdf.min.mjs", "./vendor/pdf.worker.min.mjs"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));

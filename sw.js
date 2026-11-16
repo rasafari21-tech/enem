@@ -1,6 +1,6 @@
 // Service worker: guarda o app no iPhone para abrir SEM INTERNET (no ônibus).
 // Página: tenta a rede primeiro (para pegar versões novas) e, sem internet, usa a cópia salva.
-const CACHE = "enem-v20";
+const CACHE = "enem-v21";
 const CORE = ["./", "./index.html", "./manifest.json", "./apple-touch-icon.png", "./icon-192.png", "./icon-512.png", "./favicon-32x32.png", "./vendor/pdf.min.mjs", "./vendor/pdf.worker.min.mjs", "./vendor/wasm/openjpeg.wasm", "./vendor/wasm/jbig2.wasm", "./vendor/wasm/qcms_bg.wasm"];
 
 self.addEventListener("install", (e) => {
@@ -17,6 +17,8 @@ self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+  // Banco de questões e PDFs das provas: o app já guarda no IndexedDB; aqui só passa direto pela rede.
+  if (url.origin === location.origin && /\/(banco|provas)\//.test(url.pathname)) return;
   const isPage = req.mode === "navigate" || (url.origin === location.origin && /\/(index\.html)?$/.test(url.pathname));
   if (isPage) {
     e.respondWith(

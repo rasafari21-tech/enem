@@ -1,6 +1,6 @@
 // Service worker: guarda o app no iPhone para abrir SEM INTERNET (no ônibus).
 // Página: tenta a rede primeiro (para pegar versões novas) e, sem internet, usa a cópia salva.
-const CACHE = "enem-v22";
+const CACHE = "enem-v23";
 const CORE = ["./", "./index.html", "./manifest.json", "./apple-touch-icon.png", "./icon-192.png", "./icon-512.png", "./favicon-32x32.png", "./vendor/pdf.min.mjs", "./vendor/pdf.worker.min.mjs", "./vendor/wasm/openjpeg.wasm", "./vendor/wasm/jbig2.wasm", "./vendor/wasm/qcms_bg.wasm"];
 
 self.addEventListener("install", (e) => {
@@ -21,10 +21,12 @@ self.addEventListener("fetch", (e) => {
   if (url.origin === location.origin && /\/(banco|provas)\//.test(url.pathname)) return;
   const isPage = req.mode === "navigate" || (url.origin === location.origin && /\/(index\.html)?$/.test(url.pathname));
   if (isPage) {
+    // a rede continua baixando mesmo se demorar: a versão nova fica salva para a próxima abertura
+    const net = fetch(req, { cache: "no-store" }).then((res) => { if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put("./index.html", copy)); } return res; });
+    e.waitUntil(net.catch(() => {}));
     e.respondWith(
-      Promise.race([fetch(req, { cache: "no-store" }), timeout(4000)])
-        .then((res) => { const copy = res.clone(); caches.open(CACHE).then((c) => c.put("./index.html", copy)); return res; })
-        .catch(() => caches.match("./index.html").then((r) => r || caches.match("./")))
+      Promise.race([net, timeout(8000)])
+        .catch(() => caches.match("./index.html").then((r) => r || caches.match("./") || net))
     );
     return;
   }
